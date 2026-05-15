@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MIYO Printing & Signage</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #111111;
+    --white: #ffffff;
+    --off-white: #f5f4f0;
+    --light-gray: #e8e7e3;
+    --mid-gray: #999;
+    --dark-gray: #444;
+    --accent: #111;
+    --border: #ddd;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 72px;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .nav-logo-img { width: 42px; height: 42px; object-fit: contain; }
+  .nav-brand-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--black); letter-spacing: 2px; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--dark-gray); text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; transition: color .2s; }
+  .nav-links a:hover { color: var(--black); }
+  .nav-cta { background: var(--black); color: var(--white); padding: 10px 24px; font-size: 0.8rem; font-weight: 600; text-decoration: none; letter-spacing: 1.5px; text-transform: uppercase; transition: background .2s; }
+  .nav-cta:hover { background: #333; }
+
+  /* HERO */
+  .hero { min-height: 90vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 0 5%; gap: 6rem; border-bottom: 1px solid var(--border); }
+  .hero-text { }
+  .hero-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 14px; }
+  .hero-eyebrow::before { content: ''; display: block; width: 40px; height: 1px; background: var(--mid-gray); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 7vw, 6.5rem); line-height: 1; font-weight: 900; color: var(--black); letter-spacing: -1px; }
+  .hero-sub { color: var(--dark-gray); font-size: 1.05rem; font-weight: 300; margin: 1.75rem 0 2.5rem; max-width: 440px; line-height: 1.75; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { background: var(--black); color: var(--white); padding: 14px 32px; font-weight: 600; text-decoration: none; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; transition: background .2s; display: inline-block; }
+  .btn-primary:hover { background: #333; }
+  .btn-outline { border: 1.5px solid var(--black); color: var(--black); padding: 14px 32px; font-weight: 500; text-decoration: none; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; transition: all .2s; display: inline-block; }
+  .btn-outline:hover { background: var(--black); color: var(--white); }
+
+  /* HERO VISUAL — logo large + stats */
+  .hero-visual { display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
+  .hero-logo-ring { width: 280px; height: 280px; border-radius: 50%; border: 1px solid var(--light-gray); display: flex; align-items: center; justify-content: center; }
+  .hero-logo-ring img { width: 200px; height: 200px; object-fit: contain; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0; width: 100%; border: 1px solid var(--border); }
+  .stat { padding: 1.25rem 1.5rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .stat:nth-child(2n) { border-right: none; }
+  .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--black); line-height: 1; }
+  .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: var(--mid-gray); margin-top: 4px; }
+
+  /* TICKER */
+  .services-bar { background: var(--black); overflow: hidden; padding: 14px 0; }
+  .services-ticker { display: flex; gap: 3rem; animation: ticker 28s linear infinite; white-space: nowrap; width: max-content; }
+  .services-ticker span { font-family: 'Playfair Display', serif; font-size: 0.95rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); text-transform: uppercase; }
+  .services-ticker span::after { content: ' ◆'; color: rgba(255,255,255,0.25); margin-left: 3rem; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTION */
+  section { padding: 6rem 5%; }
+  .section-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 0.75rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; font-weight: 700; color: var(--black); }
+  .section-sub { color: var(--dark-gray); font-weight: 300; max-width: 540px; margin-top: 0.75rem; font-size: 1rem; }
+
+  /* CATALOG */
+  #catalog { background: var(--off-white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .catalog-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; flex-wrap: wrap; gap: 1.5rem; }
+  .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-tab { padding: 8px 20px; border: 1px solid var(--border); background: var(--white); font-size: 0.78rem; font-weight: 500; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all .2s; color: var(--dark-gray); font-family: 'DM Sans', sans-serif; }
+  .filter-tab.active, .filter-tab:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); }
+  .product-card { background: var(--white); overflow: hidden; cursor: pointer; transition: box-shadow .2s; }
+  .product-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); z-index: 1; position: relative; }
+  .product-thumb { height: 160px; display: flex; align-items: center; justify-content: center; background: var(--off-white); position: relative; }
+  .product-thumb svg { width: 64px; height: 64px; opacity: 0.6; }
+  .product-badge { position: absolute; top: 12px; left: 12px; background: var(--black); color: var(--white); font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; }
+  .product-body { padding: 1.25rem 1.5rem 1.5rem; }
+  .product-cat { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2.5px; color: var(--mid-gray); margin-bottom: 6px; }
+  .product-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+  .product-desc { font-size: 0.85rem; color: var(--dark-gray); font-weight: 300; margin-bottom: 1.25rem; line-height: 1.5; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--black); }
+  .product-unit { font-size: 0.7rem; color: var(--mid-gray); margin-top: 2px; }
+  .btn-order { background: var(--black); color: var(--white); border: none; padding: 8px 18px; font-size: 0.75rem; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; transition: background .2s; font-family: 'DM Sans', sans-serif; }
+  .btn-order:hover { background: #333; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--white); width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; }
+  .modal-head { background: var(--black); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .modal-head h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); font-weight: 700; }
+  .modal-close { background: none; border: none; color: #aaa; font-size: 1.4rem; cursor: pointer; line-height: 1; }
+  .modal-close:hover { color: var(--white); }
+  .modal-body { padding: 2rem; }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dark-gray); margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--black); background: var(--white); transition: border .2s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--black); }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-total { background: var(--off-white); border: 1px solid var(--border); padding: 1rem 1.25rem; margin: 1.25rem 0; display: flex; justify-content: space-between; align-items: center; }
+  .form-total-label { font-size: 0.82rem; color: var(--dark-gray); }
+  .form-total-price { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--black); }
+  .btn-submit { width: 100%; background: var(--black); color: var(--white); border: none; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+  .btn-submit:hover { background: #333; }
+  .success-msg { display: none; text-align: center; padding: 2rem; }
+  .success-msg .checkmark { font-size: 3rem; margin-bottom: 1rem; }
+  .success-msg h4 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--black); margin-bottom: .5rem; }
+  .success-msg p { color: var(--dark-gray); font-size: 0.9rem; }
+
+  /* ORDERS */
+  #orders { background: var(--white); }
+  .orders-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .btn-export { background: var(--white); border: 1px solid var(--black); color: var(--black); padding: 10px 22px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; transition: all .2s; }
+  .btn-export:hover { background: var(--black); color: var(--white); }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); }
+  table.orders-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+  table.orders-table thead { background: var(--black); color: var(--white); }
+  table.orders-table th { padding: 12px 16px; text-align: left; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+  table.orders-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--black); }
+  table.orders-table tr:last-child td { border-bottom: none; }
+  table.orders-table tr:hover td { background: var(--off-white); }
+  .status-badge { display: inline-block; padding: 3px 12px; font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .status-pending { background: #fef9ec; color: #8a5f00; border: 1px solid #e8d58a; }
+  .status-done { background: #eefaf4; color: #1a6641; border: 1px solid #9dd6b4; }
+  .status-progress { background: #ecf2fc; color: #1a3a6e; border: 1px solid #9ab8e8; }
+  .empty-orders { text-align: center; padding: 3rem 1rem; color: var(--mid-gray); font-size: 0.9rem; }
+
+  /* ADMIN */
+  #admin { background: var(--off-white); border-top: 1px solid var(--border); }
+  .admin-lock { text-align: center; max-width: 360px; margin: 0 auto; padding: 2rem 0; }
+  .admin-lock h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--black); }
+  .admin-lock input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); font-family: 'DM Sans', sans-serif; font-size: 1rem; margin-bottom: 12px; text-align: center; letter-spacing: 4px; }
+  .admin-lock input:focus { outline: none; border-color: var(--black); }
+  .admin-panel-content { display: none; }
+  .admin-panel-content.open { display: block; }
+  .admin-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .admin-tab-btn { padding: 10px 24px; background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mid-gray); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .2s; }
+  .admin-tab-btn.active { color: var(--black); border-bottom-color: var(--black); }
+  .admin-tab { display: none; }
+  .admin-tab.active { display: block; }
+  .product-editor { display: grid; gap: 8px; }
+  .product-row { background: var(--white); border: 1px solid var(--border); padding: 1rem 1.25rem; display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr auto; gap: 10px; align-items: center; }
+  .product-row input, .product-row select { padding: 7px 10px; border: 1px solid var(--border); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--black); background: var(--off-white); width: 100%; }
+  .product-row input:focus, .product-row select:focus { outline: none; border-color: var(--black); }
+  .btn-del { background: none; border: 1px solid var(--border); color: var(--mid-gray); padding: 7px 12px; cursor: pointer; font-size: 0.85rem; transition: all .2s; }
+  .btn-del:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+  .btn-add-row { background: none; border: 1.5px dashed var(--border); color: var(--mid-gray); padding: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; width: 100%; transition: all .2s; margin-top: 8px; }
+  .btn-add-row:hover { border-color: var(--black); color: var(--black); }
+  .btn-save { background: var(--black); color: var(--white); border: none; padding: 12px 32px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1.25rem; transition: background .2s; }
+  .btn-save:hover { background: #333; }
+  .save-notice { font-size: 0.8rem; color: #059669; margin-left: 12px; display: none; }
+  .col-headers { display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr auto; gap: 10px; padding: 0 1.25rem; margin-bottom: 4px; }
+  .col-headers span { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: var(--mid-gray); font-weight: 600; }
+  .spreadsheet-export { background: var(--white); border: 1px solid var(--border); padding: 1.5rem; margin-top: 1.5rem; }
+  .spreadsheet-export h4 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: .75rem; color: var(--black); }
+  .spreadsheet-export p { font-size: 0.85rem; color: var(--dark-gray); margin-bottom: 1rem; }
+  .export-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-csv { background: var(--black); color: var(--white); border: none; padding: 9px 20px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; transition: background .2s; }
+  .btn-csv:hover { background: #333; }
+  .btn-import { background: none; border: 1px solid var(--black); color: var(--black); padding: 9px 20px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; transition: all .2s; }
+  .btn-import:hover { background: var(--black); color: var(--white); }
+  #csvFileInput { display: none; }
+
+  /* CONTACT */
+  #contact { background: var(--black); color: var(--white); }
+  #contact .section-title { color: var(--white); }
+  #contact .section-label { color: #888; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 3rem; }
+  .contact-info h4 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--white); margin-bottom: 1.5rem; }
+  .contact-item { display: flex; gap: 14px; margin-bottom: 1.25rem; align-items: flex-start; }
+  .contact-icon { width: 36px; height: 36px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #aaa; font-size: 1rem; }
+  .contact-text strong { display: block; font-weight: 600; color: var(--white); font-size: 0.85rem; }
+  .contact-text span { color: #888; font-size: 0.85rem; }
+  .contact-form input, .contact-form textarea { width: 100%; padding: 11px 14px; border: 1px solid #333; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--white); background: rgba(255,255,255,0.04); margin-bottom: 1rem; transition: border .2s; }
+  .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #777; }
+  .contact-form textarea { min-height: 120px; resize: vertical; }
+  .contact-form input::placeholder, .contact-form textarea::placeholder { color: #555; }
+
+  /* FOOTER */
+  footer { background: #0a0a0a; padding: 2rem 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid #1a1a1a; }
+  .footer-brand { display: flex; align-items: center; gap: 12px; }
+  .footer-brand img { width: 32px; height: 32px; object-fit: contain; filter: invert(1); }
+  .footer-brand-text { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--white); letter-spacing: 2px; }
+  footer p { color: #444; font-size: 0.8rem; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; padding: 4rem 5%; gap: 3rem; }
+    .hero-visual { display: none; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .product-row { grid-template-columns: 1fr 1fr; }
+    .col-headers { display: none; }
+    nav { padding: 0 4%; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <img src="LOGO_PLACEHOLDER" alt="MIYO Logo" class="nav-logo-img" onerror="this.style.display='none'"/>
+    <span class="nav-brand-text">MIYO</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#catalog">Products</a></li>
+    <li><a href="#orders">Orders</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#admin">Admin</a></li>
+  </ul>
+  <a href="#catalog" class="nav-cta">Order Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Baguio City, Philippines</div>
+    <h1>Print.<br>Sign.<br>Create.</h1>
+    <p class="hero-sub">MIYO Printing & Signage delivers precision-crafted tarpaulins, signage, business cards, shirts, and more — for businesses, events, and brands that want to stand out.</p>
+    <div class="hero-btns">
+      <a href="#catalog" class="btn-primary">Browse Products</a>
+      <a href="#contact" class="btn-outline">Get a Quote</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-logo-ring">
+      <img src="LOGO_PLACEHOLDER" alt="MIYO" />
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Happy Clients</div></div>
+      <div class="stat"><div class="stat-num">9</div><div class="stat-label">Product Lines</div></div>
+      <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Rush Orders</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Custom Work</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="services-bar">
+  <div class="services-ticker">
+    <span>Tarpaulins</span><span>Banners</span><span>Stickers</span><span>Signage</span><span>Laser Cutting</span><span>Engraving</span><span>Business Cards</span><span>Flyers</span><span>Shirts</span>
+    <span>Tarpaulins</span><span>Banners</span><span>Stickers</span><span>Signage</span><span>Laser Cutting</span><span>Engraving</span><span>Business Cards</span><span>Flyers</span><span>Shirts</span>
+  </div>
+</div>
+
+<!-- CATALOG -->
+<section id="catalog">
+  <div class="catalog-header">
+    <div>
+      <div class="section-label">Products & Pricing</div>
+      <div class="section-title">What We Print</div>
+      <div class="section-sub">Tap any product to place an order. Prices shown are base rates.</div>
+    </div>
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="print">Print</button>
+      <button class="filter-tab" data-filter="signage">Signage</button>
+      <button class="filter-tab" data-filter="apparel">Apparel</button>
+      <button class="filter-tab" data-filter="specialty">Specialty</button>
+    </div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Place Order</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div id="orderForm">
+        <div class="form-row">
+          <div class="form-group"><label>Your Name</label><input type="text" id="oName" placeholder="Juan Dela Cruz"/></div>
+          <div class="form-group"><label>Contact Number</label><input type="tel" id="oPhone" placeholder="09XX XXX XXXX"/></div>
+        </div>
+        <div class="form-group"><label>Product</label><input type="text" id="oProduct" readonly/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Size / Specification</label><input type="text" id="oSize" placeholder='e.g. 3x5 ft, A4, XL'/></div>
+          <div class="form-group"><label>Quantity</label><input type="number" id="oQty" value="1" min="1" oninput="calcTotal()"/></div>
+        </div>
+        <div class="form-group"><label>Special Instructions</label><textarea id="oNotes" placeholder="Colors, design notes, deadline, file format..."></textarea></div>
+        <div class="form-total">
+          <div><div class="form-total-label">Estimated Total</div><div style="font-size:.72rem;color:#aaa;">Base price × quantity</div></div>
+          <div class="form-total-price" id="totalPrice">₱0</div>
+        </div>
+        <button class="btn-submit" onclick="submitOrder()">Submit Order</button>
+      </div>
+      <div class="success-msg" id="successMsg">
+        <div class="checkmark">✅</div>
+        <h4>Order Received!</h4>
+        <p>We'll contact you shortly to confirm your order details and payment.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDERS -->
+<section id="orders">
+  <div class="orders-header">
+    <div>
+      <div class="section-label">Order Tracker</div>
+      <div class="section-title">All Orders</div>
+    </div>
+    <button class="btn-export" onclick="exportOrdersCSV()">↓ Export CSV</button>
+  </div>
+  <div class="table-wrap">
+    <table class="orders-table">
+      <thead><tr><th>#</th><th>Date</th><th>Customer</th><th>Product</th><th>Qty</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody id="ordersBody"></tbody>
+    </table>
+    <div class="empty-orders" id="emptyOrders">No orders yet. Orders will appear here once placed.</div>
+  </div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin">
+  <div class="section-label">Admin Panel</div>
+  <div class="section-title">Manage Products</div>
+  <div class="section-sub" style="margin-bottom:2rem;">Edit products, prices, and categories. Export or import via CSV to sync with Google Sheets or Excel.</div>
+  <div class="admin-lock" id="adminLock">
+    <h3>🔒 Admin Access</h3>
+    <p style="color:var(--mid-gray);font-size:.9rem;margin-bottom:1rem;">Enter password to unlock.</p>
+    <input type="password" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPass()"/>
+    <button class="btn-primary" onclick="checkPass()" style="width:100%;display:block;text-align:center;">Unlock Panel</button>
+    <p id="passError" style="color:#dc2626;font-size:.8rem;margin-top:.5rem;display:none;">Incorrect password.</p>
+  </div>
+  <div class="admin-panel-content" id="adminContent">
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" onclick="showAdminTab('products',this)">Products & Pricing</button>
+      <button class="admin-tab-btn" onclick="showAdminTab('orders-admin',this)">Order Management</button>
+      <button class="admin-tab-btn" onclick="showAdminTab('info',this)">Business Info</button>
+    </div>
+    <div class="admin-tab active" id="tab-products">
+      <div class="col-headers">
+        <span>Product Name</span><span>Category</span><span>Base Price (₱)</span><span>Unit</span><span></span>
+      </div>
+      <div class="product-editor" id="productEditor"></div>
+      <button class="btn-add-row" onclick="addProductRow()">+ Add New Product</button>
+      <div>
+        <button class="btn-save" onclick="saveProducts()">Save Changes</button>
+        <span class="save-notice" id="saveNotice">✓ Saved successfully!</span>
+      </div>
+      <div class="spreadsheet-export">
+        <h4>📊 Spreadsheet Integration</h4>
+        <p>Export your product list as a CSV to edit in Google Sheets or Excel. Import back to update the website instantly.</p>
+        <div class="export-btns">
+          <button class="btn-csv" onclick="exportProductsCSV()">↓ Export Products CSV</button>
+          <button class="btn-import" onclick="document.getElementById('csvFileInput').click()">↑ Import from CSV</button>
+          <input type="file" id="csvFileInput" accept=".csv" onchange="importCSV(event)"/>
+        </div>
+      </div>
+    </div>
+    <div class="admin-tab" id="tab-orders-admin">
+      <p style="color:var(--dark-gray);margin-bottom:1.5rem;font-size:.9rem;">Update order statuses below. All changes are saved locally.</p>
+      <div class="table-wrap">
+        <table class="orders-table">
+          <thead><tr><th>#</th><th>Customer</th><th>Product</th><th>Qty</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody id="adminOrdersBody"></tbody>
+        </table>
+        <div class="empty-orders" id="adminEmptyOrders">No orders yet.</div>
+      </div>
+    </div>
+    <div class="admin-tab" id="tab-info">
+      <div style="max-width:520px;">
+        <div class="form-group"><label>Business Name</label><input type="text" id="bizName" value="MIYO Printing & Signage"/></div>
+        <div class="form-group"><label>Phone / Messenger</label><input type="text" id="bizPhone" value="09XX XXX XXXX"/></div>
+        <div class="form-group"><label>Email</label><input type="text" id="bizEmail" value="miyo@email.com"/></div>
+        <div class="form-group"><label>Address</label><input type="text" id="bizAddr" value="Baguio City, Philippines"/></div>
+        <div class="form-group"><label>Business Hours</label><input type="text" id="bizHours" value="Mon–Sat, 8AM–6PM"/></div>
+        <button class="btn-save" onclick="saveInfo()">Save Business Info</button>
+        <span class="save-notice" id="infoNotice">✓ Saved!</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <div class="section-title">Ready to Print?</div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h4>Contact MIYO</h4>
+      <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-text"><strong>Address</strong><span id="cAddr">Baguio City, Philippines</span></div></div>
+      <div class="contact-item"><div class="contact-icon">📞</div><div class="contact-text"><strong>Phone / Messenger</strong><span id="cPhone">09XX XXX XXXX</span></div></div>
+      <div class="contact-item"><div class="contact-icon">✉️</div><div class="contact-text"><strong>Email</strong><span id="cEmail">miyo@email.com</span></div></div>
+      <div class="contact-item"><div class="contact-icon">🕐</div><div class="contact-text"><strong>Business Hours</strong><span id="cHours">Mon–Sat, 8AM–6PM</span></div></div>
+    </div>
+    <div class="contact-form">
+      <input type="text" id="cName" placeholder="Your Name"/>
+      <input type="text" id="cContact" placeholder="Phone or Email"/>
+      <textarea id="cMessage" placeholder="Tell us what you need — product, size, quantity, deadline..."></textarea>
+      <button class="btn-primary" onclick="sendInquiry()" style="width:100%;display:block;text-align:center;">Send Inquiry</button>
+      <p id="inquirySuccess" style="color:#6ee7b7;font-size:.85rem;margin-top:.75rem;display:none;">✓ Inquiry sent! We'll get back to you soon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <img src="LOGO_PLACEHOLDER" alt="MIYO" />
+    <span class="footer-brand-text">MIYO</span>
+  </div>
+  <p>© 2024 MIYO Printing & Signage. All rights reserved.</p>
+  <p>Baguio City, Philippines</p>
+</footer>
+
+<script>
+const LOGO_SRC = 'LOGO_DATA_URI';
+
+// Replace logo placeholders
+document.querySelectorAll('img[src="LOGO_PLACEHOLDER"]').forEach(img => { img.src = LOGO_SRC; });
+
+const DEFAULT_PRODUCTS = [
+  { id:1, name:'Tarpaulin Banner', cat:'print', price:250, unit:'per sqft', desc:'Full-color outdoor tarpaulin printing, weather-resistant ink.', badge:'Best Seller' },
+  { id:2, name:'Vinyl Stickers', cat:'print', price:35, unit:'per piece', desc:'Custom vinyl stickers, waterproof and UV-resistant.', badge:'' },
+  { id:3, name:'Flyers & Leaflets', cat:'print', price:4, unit:'per piece', desc:'A5/A4 full-color flyers, glossy or matte finish.', badge:'' },
+  { id:4, name:'Business Cards', cat:'print', price:500, unit:'per 100 pcs', desc:'Premium business cards, single or double-sided.', badge:'' },
+  { id:5, name:'Fabric Banner', cat:'signage', price:450, unit:'per sqft', desc:'Indoor fabric banners, vibrant dye-sublimation print.', badge:'Popular' },
+  { id:6, name:'Acrylic Signage', cat:'signage', price:800, unit:'per sqft', desc:'Precision-cut acrylic signs with engraved or UV text.', badge:'' },
+  { id:7, name:'LED Light Box', cat:'signage', price:3500, unit:'per unit', desc:'Illuminated lightbox signage for storefronts.', badge:'' },
+  { id:8, name:'Laser Engraving', cat:'specialty', price:150, unit:'per item', desc:'Precision laser engraving on wood, metal, acrylic.', badge:'' },
+  { id:9, name:'Laser Cutting', cat:'specialty', price:200, unit:'per item', desc:'Custom shapes and lettering in acrylic, wood, MDF.', badge:'' },
+  { id:10, name:'Sublimation Shirt', cat:'apparel', price:350, unit:'per piece', desc:'Full-color sublimation print on polyester shirts.', badge:'' },
+  { id:11, name:'DTF Shirt Printing', cat:'apparel', price:280, unit:'per piece', desc:'Direct-to-film transfer for cotton & blended shirts.', badge:'New' },
+  { id:12, name:'Embroidered Cap', cat:'apparel', price:420, unit:'per piece', desc:'Embroidered logo caps, various colors available.', badge:'' },
+];
+
+const ICONS = {
+  print: '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="20" width="48" height="28" rx="2" fill="#e8e7e3" stroke="#ccc" stroke-width="2"/><rect x="16" y="8" width="32" height="20" rx="1" fill="#fff" stroke="#ccc" stroke-width="2"/><rect x="20" y="38" width="24" height="14" rx="1" fill="#fff" stroke="#ccc" stroke-width="2"/><circle cx="44" cy="32" r="3" fill="#111"/></svg>',
+  signage: '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="14" width="52" height="32" rx="2" fill="#e8e7e3" stroke="#ccc" stroke-width="2"/><line x1="32" y1="46" x2="32" y2="58" stroke="#ccc" stroke-width="3" stroke-linecap="round"/><line x1="22" y1="58" x2="42" y2="58" stroke="#ccc" stroke-width="3" stroke-linecap="round"/><rect x="14" y="22" width="20" height="4" rx="1" fill="#111"/><rect x="14" y="30" width="12" height="4" rx="1" fill="#aaa"/></svg>',
+  apparel: '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 10 L10 22 L18 26 L18 54 L46 54 L46 26 L54 22 L42 10 C42 10 38 16 32 16 C26 16 22 10 22 10Z" fill="#e8e7e3" stroke="#ccc" stroke-width="2" stroke-linejoin="round"/><rect x="26" y="28" width="12" height="10" rx="1" fill="#111" opacity=".5"/></svg>',
+  specialty: '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="22" fill="#e8e7e3" stroke="#ccc" stroke-width="2"/><path d="M20 32 L28 24 L36 32 L44 20" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="44" cy="20" r="3" fill="#111"/></svg>',
+};
+
+let products = JSON.parse(localStorage.getItem('miyo_products') || 'null') || DEFAULT_PRODUCTS;
+let orders = JSON.parse(localStorage.getItem('miyo_orders') || '[]');
+let currentProduct = null;
+const ADMIN_PASS = 'miyo2024';
+
+function renderProducts(filter='all') {
+  const grid = document.getElementById('productsGrid');
+  const list = filter === 'all' ? products : products.filter(p => p.cat === filter);
+  if (!list.length) { grid.innerHTML = '<p style="color:var(--mid-gray);grid-column:1/-1;text-align:center;padding:3rem;background:#fff;">No products in this category.</p>'; return; }
+  grid.innerHTML = list.map(p => `
+    <div class="product-card" onclick="openOrder(${p.id})">
+      <div class="product-thumb">
+        ${ICONS[p.cat] || ICONS.print}
+        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="product-body">
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc || ''}</div>
+        <div class="product-footer">
+          <div><div class="product-price">₱${Number(p.price).toLocaleString()}</div><div class="product-unit">${p.unit}</div></div>
+          <button class="btn-order">Order</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('filterTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-tab');
+  if (!btn) return;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(btn.dataset.filter);
+});
+
+function openOrder(id) {
+  currentProduct = products.find(p => p.id === id);
+  if (!currentProduct) return;
+  document.getElementById('modalTitle').textContent = currentProduct.name;
+  document.getElementById('oProduct').value = currentProduct.name;
+  document.getElementById('oQty').value = 1;
+  document.getElementById('oName').value = '';
+  document.getElementById('oPhone').value = '';
+  document.getElementById('oSize').value = '';
+  document.getElementById('oNotes').value = '';
+  document.getElementById('orderForm').style.display = 'block';
+  document.getElementById('successMsg').style.display = 'none';
+  calcTotal();
+  document.getElementById('orderModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('orderModal').classList.remove('open'); }
+document.getElementById('orderModal').addEventListener('click', e => { if(e.target === document.getElementById('orderModal')) closeModal(); });
+
+function calcTotal() {
+  if (!currentProduct) return;
+  const qty = parseInt(document.getElementById('oQty').value) || 1;
+  document.getElementById('totalPrice').textContent = '₱' + (currentProduct.price * qty).toLocaleString();
+}
+
+function submitOrder() {
+  const name = document.getElementById('oName').value.trim();
+  const phone = document.getElementById('oPhone').value.trim();
+  if (!name || !phone) { alert('Please enter your name and contact number.'); return; }
+  const qty = parseInt(document.getElementById('oQty').value) || 1;
+  const order = { id: orders.length+1, date: new Date().toLocaleDateString('en-PH'), name, phone, product: currentProduct.name, size: document.getElementById('oSize').value||'—', qty, total: currentProduct.price*qty, notes: document.getElementById('oNotes').value, status: 'pending' };
+  orders.push(order);
+  localStorage.setItem('miyo_orders', JSON.stringify(orders));
+  document.getElementById('orderForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+  renderOrders(); renderAdminOrders();
+}
+
+function renderOrders() {
+  const tbody = document.getElementById('ordersBody');
+  const empty = document.getElementById('emptyOrders');
+  if (!orders.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = orders.map(o => `<tr><td>#${o.id}</td><td>${o.date}</td><td><strong>${o.name}</strong><br><span style="color:var(--mid-gray);font-size:.78rem;">${o.phone}</span></td><td>${o.product}</td><td>${o.qty}</td><td><strong>₱${o.total.toLocaleString()}</strong></td><td><span class="status-badge status-${o.status}">${o.status}</span></td><td><select onchange="updateStatus(${o.id-1},this.value)" style="font-size:.8rem;padding:4px 8px;border:1px solid #ddd;cursor:pointer;"><option value="pending" ${o.status==='pending'?'selected':''}>Pending</option><option value="progress" ${o.status==='progress'?'selected':''}>In Progress</option><option value="done" ${o.status==='done'?'selected':''}>Done</option></select></td></tr>`).join('');
+}
+
+function updateStatus(idx, val) { orders[idx].status=val; localStorage.setItem('miyo_orders',JSON.stringify(orders)); renderOrders(); renderAdminOrders(); }
+function exportOrdersCSV() { if(!orders.length){alert('No orders yet.');return;} downloadCSV([['#','Date','Customer','Phone','Product','Size','Qty','Total','Status','Notes'],...orders.map(o=>[o.id,o.date,o.name,o.phone,o.product,o.size,o.qty,o.total,o.status,o.notes])],'miyo_orders.csv'); }
+
+function checkPass() {
+  if (document.getElementById('adminPass').value === ADMIN_PASS) {
+    document.getElementById('adminLock').style.display='none';
+    document.getElementById('adminContent').classList.add('open');
+    renderProductEditor(); renderAdminOrders();
+  } else { document.getElementById('passError').style.display='block'; }
+}
+
+function showAdminTab(name, btn) {
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.admin-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function renderProductEditor() {
+  document.getElementById('productEditor').innerHTML = products.map((p,i) => `<div class="product-row"><input type="text" value="${p.name}" placeholder="Product Name" onchange="products[${i}].name=this.value"/><select onchange="products[${i}].cat=this.value"><option value="print" ${p.cat==='print'?'selected':''}>Print</option><option value="signage" ${p.cat==='signage'?'selected':''}>Signage</option><option value="apparel" ${p.cat==='apparel'?'selected':''}>Apparel</option><option value="specialty" ${p.cat==='specialty'?'selected':''}>Specialty</option></select><input type="number" value="${p.price}" onchange="products[${i}].price=Number(this.value)"/><input type="text" value="${p.unit}" onchange="products[${i}].unit=this.value"/><button class="btn-del" onclick="deleteProduct(${i})">✕</button></div>`).join('');
+}
+
+function deleteProduct(idx) { if(!confirm('Delete this product?'))return; products.splice(idx,1); renderProductEditor(); }
+function addProductRow() { products.push({id:Date.now(),name:'New Product',cat:'print',price:100,unit:'per piece',desc:'',badge:''}); renderProductEditor(); }
+
+function saveProducts() {
+  localStorage.setItem('miyo_products',JSON.stringify(products)); renderProducts();
+  const n=document.getElementById('saveNotice'); n.style.display='inline'; setTimeout(()=>n.style.display='none',2500);
+}
+
+function renderAdminOrders() {
+  const tbody=document.getElementById('adminOrdersBody'); const empty=document.getElementById('adminEmptyOrders');
+  if(!orders.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=orders.map((o,i)=>`<tr><td>#${o.id}</td><td>${o.name}</td><td>${o.product}</td><td>${o.qty}</td><td>₱${o.total.toLocaleString()}</td><td><select onchange="updateStatus(${i},this.value)" style="font-size:.8rem;padding:4px 8px;border:1px solid #ddd;cursor:pointer;"><option value="pending" ${o.status==='pending'?'selected':''}>Pending</option><option value="progress" ${o.status==='progress'?'selected':''}>In Progress</option><option value="done" ${o.status==='done'?'selected':''}>Done</option></select></td></tr>`).join('');
+}
+
+function downloadCSV(rows, filename) { const csv=rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n'); const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download=filename; a.click(); }
+function exportProductsCSV() { downloadCSV([['ID','Name','Category','Base Price (PHP)','Unit','Description','Badge'],...products.map(p=>[p.id,p.name,p.cat,p.price,p.unit,p.desc||'',p.badge||''])],'miyo_products.csv'); }
+function importCSV(e) {
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader(); reader.onload=function(ev){try{const lines=ev.target.result.trim().split('\n').slice(1); const imported=lines.map((l,i)=>{const cols=l.split(',').map(c=>c.replace(/^"|"$/g,'').trim());return{id:i+1,name:cols[1]||'Product',cat:cols[2]||'print',price:parseFloat(cols[3])||0,unit:cols[4]||'per piece',desc:cols[5]||'',badge:cols[6]||''};}).filter(p=>p.name);if(!imported.length){alert('No valid rows found.');return;} products=imported; renderProductEditor(); alert(`✓ Imported ${imported.length} products. Click Save Changes to apply.`);}catch(err){alert('Error reading CSV.');}};
+  reader.readAsText(file); e.target.value='';
+}
+
+function saveInfo() {
+  const info={name:document.getElementById('bizName').value,phone:document.getElementById('bizPhone').value,email:document.getElementById('bizEmail').value,addr:document.getElementById('bizAddr').value,hours:document.getElementById('bizHours').value};
+  localStorage.setItem('miyo_info',JSON.stringify(info)); applyInfo(info);
+  const n=document.getElementById('infoNotice'); n.style.display='inline'; setTimeout(()=>n.style.display='none',2500);
+}
+
+function applyInfo(info) {
+  if(!info)return;
+  if(info.phone){document.getElementById('cPhone').textContent=info.phone;document.getElementById('bizPhone').value=info.phone;}
+  if(info.email){document.getElementById('cEmail').textContent=info.email;document.getElementById('bizEmail').value=info.email;}
+  if(info.addr){document.getElementById('cAddr').textContent=info.addr;document.getElementById('bizAddr').value=info.addr;}
+  if(info.hours){document.getElementById('cHours').textContent=info.hours;document.getElementById('bizHours').value=info.hours;}
+}
+
+function sendInquiry() {
+  if(!document.getElementById('cName').value.trim()||!document.getElementById('cContact').value.trim()){alert('Please fill in your name and contact.');return;}
+  document.getElementById('inquirySuccess').style.display='block';
+  document.getElementById('cName').value=''; document.getElementById('cContact').value=''; document.getElementById('cMessage').value='';
+  setTimeout(()=>document.getElementById('inquirySuccess').style.display='none',4000);
+}
+
+renderProducts();
+renderOrders();
+const savedInfo=JSON.parse(localStorage.getItem('miyo_info')||'null');
+if(savedInfo)applyInfo(savedInfo);
+</script>
+</body>
+</html>
